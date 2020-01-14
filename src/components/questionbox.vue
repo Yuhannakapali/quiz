@@ -35,7 +35,8 @@
     <b-button
      @click="next" 
      variant="success" 
-     href="">
+      :disabled="!answered"
+      >
      Next
 
     </b-button>
