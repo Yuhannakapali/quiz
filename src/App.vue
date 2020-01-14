@@ -1,15 +1,19 @@
 <template>
   <div id="app">
    
-    <top />
+    <top 
+    :correctAnswer="correctAnswer"
+    :totalAnswer="totalAnswer"
+
+    />
     <b-container class="bv-example-row">
   <b-row>
     <b-col sm-6 >
       <questionbox 
         v-if="question.length"
-        :currentQuestion = "question[index]"
-        v-on:next = "nexthandler"
-
+        :currentQuestion="question[index]"
+        :next="nexthandler"
+        :increment="increment"
 
       />
         
@@ -28,11 +32,7 @@ import questionbox from './components/questionbox.vue'
 //import Nav from './components/nav.vue'
 
 export default {
-  
-    
   name: 'app',
-
- 
   components: {
     top,
     questionbox
@@ -40,13 +40,21 @@ export default {
   data(){
    return{
      question : [],
-     index : 0
+     index : 0,
+     correctAnswer: 0,
+     totalAnswer: 0
    }
   },
   methods:{
     nexthandler() {
-      //this.console.log("here");
       this.index++
+    },
+    increment(isCorrect){
+      if (isCorrect === true) {
+        console.log('here')
+          this.correctAnswer++
+      }
+      this.totalAnswer++
     }
   },
   mounted: function(){
