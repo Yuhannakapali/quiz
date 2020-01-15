@@ -14,8 +14,8 @@
         <b-list-group-item
           v-for="(answer, index) in shuffledAnswers "
           :key="index" 
-          @click="selectanswer(index)"
-          :class="[selectedIndex === index ? 'selected' : '']"
+          @click="selectAnswer(index)"
+          :class="answerClass(index)"
         >
           {{ answer }}
 
@@ -62,7 +62,8 @@ export default {
       selectedIndex: null,
       shuffledAnswers : [],
       correctIndex: null,
-      answered: false
+      answered: false,
+      answersClass : ''
     }
   },
   computed: {
@@ -90,7 +91,7 @@ export default {
     // }
   },
   methods: {
-    selectanswer(index){
+    selectAnswer(index){
       this.selectedIndex= index
       console.log(index)
     },
@@ -110,12 +111,22 @@ export default {
       let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
       this.shuffledAnswers = _.shuffle(answers)
      this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
+    },
+
+    answerClass(index){
+      let answersClass = ''
+      if (!this.answered && this.selectedIndex === index) {
+        answersClass = 'selected'
+      }
+      else if ( this.answered && this.correctIndex === index) {
+        answersClass = 'correct'
+      } 
+      else if ( this.answered && this.selectedIndex=== index && this.correctIndex !== index ) {
+        answersClass = 'incorrect' 
+      }
+      return answersClass       
     }
-    // suffleAnswer(){
-    //   let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
-    //   this.suffledAnswers = _.shuffle(answers)
-     
-    // }
+  
   }
     
 
